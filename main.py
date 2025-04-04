@@ -59,7 +59,7 @@ st.write(f"Estimated g: {g:.4f} m/s²")
 st.write(length)
 
 # Save estimated g values only if file was not already processed
-g_file = "data/estimated_g_values.csv"
+g_file = "estimated_g_values.csv"
 if os.path.exists(g_file):
     g_df = pd.read_csv(g_file)
 else:
