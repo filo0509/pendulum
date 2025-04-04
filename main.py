@@ -3,9 +3,17 @@ import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
 import math
+import os
+import plotly.graph_objects as go
+
+# Get list of files in data folder
+data_files = [f for f in os.listdir("data") if f.endswith(".csv")]
+
+# Dropdown to select file
+selected_file = st.selectbox("Select a data file", data_files)
 
 # Load data
-df = pd.read_csv("data/45gradi_39.5.csv", sep=";")
+df = pd.read_csv(f"data/{selected_file}", sep=";")
 length = 0.395
 
 # Remove first 29 rows
@@ -32,12 +40,10 @@ x_fit = np.linspace(min(x), max(x), 200)
 y_fit = exp_model(x_fit, A_fit, B_fit, C_fit)
 
 # Display results in Streamlit
-st.title("g estimation with a pendulum")
+st.title("Exponential Fit for Period Data")
 st.write(f"Fitted equation: {A_fit:.3f} * exp({B_fit:.3f} * x) + {C_fit:.3f}")
 
 # Plot using Streamlit native functions
-import plotly.graph_objects as go
-
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='Data'))
 fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=dict(color='red')))
