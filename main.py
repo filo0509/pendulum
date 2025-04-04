@@ -57,3 +57,17 @@ st.plotly_chart(fig)
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
 st.write(f"Estimated g: {g:.4f} m/s²")
 st.write(length)
+
+# Save estimated g values
+g_file = "estimated_g_values.csv"
+if os.path.exists(g_file):
+    g_df = pd.read_csv(g_file)
+else:
+    g_df = pd.DataFrame(columns=["Length (m)", "Estimated g (m/s²)"])
+
+new_entry = pd.DataFrame([[length, g]], columns=["Length (m)", "Estimated g (m/s²)"])
+g_df = pd.concat([g_df, new_entry], ignore_index=True)
+g_df.to_csv(g_file, index=False)
+
+st.write("Updated estimated g values saved to estimated_g_values.csv")
+st.dataframe(g_df)
