@@ -12,11 +12,10 @@ data_files = [f for f in os.listdir("data") if f.endswith(".csv")]
 # Dropdown to select file
 selected_file = st.selectbox("Select a data file", data_files)
 
-# Extract length from filename
-length = float(selected_file.split("_")[-1].replace(".csv", ""))
-
 # Load data
 df = pd.read_csv(f"data/{selected_file}", sep=";")
+length = float(selected_file.split("_")[-1].replace(".csv", ""))
+length = length/100
 
 # Remove first 29 rows
 df = df.iloc[6:]
@@ -44,7 +43,6 @@ y_fit = exp_model(x_fit, A_fit, B_fit, C_fit)
 # Display results in Streamlit
 st.title("Exponential Fit for Period Data")
 st.write(f"Fitted equation: {A_fit:.3f} * exp({B_fit:.3f} * x) + {C_fit:.3f}")
-st.write(f"Length extracted from filename: {length} m")
 
 # Plot using Streamlit native functions
 fig = go.Figure()
@@ -58,23 +56,18 @@ st.plotly_chart(fig)
 # Compute and display g
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
 st.write(f"Estimated g: {g:.4f} m/s²")
+st.write(length)
 
-# Save estimated g values only if file was not already processed
+# Save estimated g values
 g_file = "estimated_g_values.csv"
-
 if os.path.exists(g_file):
     g_df = pd.read_csv(g_file)
 else:
-    g_df = pd.DataFrame(columns=["Filename", "Length (m)", "Estimated g (m/s²)"])
+    g_df = pd.DataFrame(columns=["Length (m)", "Estimated g (m/s²)"])
 
-# Ensure the column exists before checking
-if "Filename" not in g_df.columns:
-    g_df["Filename"] = []
+new_entry = pd.DataFrame([[length, g]], columns=["Length (m)", "Estimated g (m/s²)"])
+g_df = pd.concat([g_df, new_entry], ignore_index=True)
+g_df.to_csv(g_file, index=False)
 
-if selected_file not in g_df["Filename"].values:
-    new_entry = pd.DataFrame([[selected_file, length, g]], columns=["Filename", "Length (m)", "Estimated g (m/s²)"])
-    g_df = pd.concat([g_df, new_entry], ignore_index=True)
-    g_df.to_csv(g_file, index=False)
-    st.write("Updated estimated g values saved to estimated_g_values.csv")
-
+st.write("Updated estimated g values saved to estimated_g_values.csv")
 st.dataframe(g_df)
