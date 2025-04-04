@@ -15,6 +15,7 @@ selected_file = st.selectbox("Select a data file", data_files)
 # Load data
 df = pd.read_csv(f"data/{selected_file}", sep=";")
 length = float(selected_file.split("_")[-1].replace(".csv", ""))
+length = length/100
 
 # Remove first 29 rows
 df = df.iloc[6:]
@@ -55,4 +56,4 @@ st.plotly_chart(fig)
 # Compute and display g
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
 st.write(f"Estimated g: {g:.4f} m/s²")
-st.write(length/100)
+st.write(length)
