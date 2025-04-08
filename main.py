@@ -85,6 +85,8 @@ y = t2l["l"]
 def linear_model(x, A, B):
     return A*x + B
 
+initial_guess = [1, -0.1]
+
 lin_fig = go.Figure()
 params, covariance = curve_fit(linear_model, x, y, p0=initial_guess, maxfev=5000)
 A_fit, B_fit = params
