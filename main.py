@@ -96,7 +96,7 @@ y_fit = linear_model(x_fit, A_fit, B_fit)
 lin_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='Data'))
 lin_fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=dict(color='red')))
 
-lin_fig.update_layout(title="Period vs Time", xaxis_title="Time", yaxis_title="Period")
+lin_fig.update_layout(title="Period vs Time", xaxis_title="T^2", yaxis_title="Lunghezza")
 
 st.plotly_chart(lin_fig)
 st.write(
