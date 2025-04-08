@@ -33,8 +33,10 @@ initial_guess = [1, -0.1, 10]
 # Fit curve
 params, covariance = curve_fit(exp_model, x, y, p0=initial_guess, maxfev=5000)
 
-# Extract fitted parameters
+# Extract fitted parameters and their errors
 A_fit, B_fit, C_fit = params
+perr = np.sqrt(np.diag(covariance))  # standard deviation (errors)
+A_err, B_err, C_err = perr
 
 # Generate fitted values
 x_fit = np.linspace(min(x), max(x), 200)
@@ -42,7 +44,9 @@ y_fit = exp_model(x_fit, A_fit, B_fit, C_fit)
 
 # Display results in Streamlit
 st.title("Exponential Fit for Period Data")
-st.write(f"Fitted equation: {A_fit:.3f} * exp({B_fit:.3f} * x) + {C_fit:.3f}")
+st.write(
+    f"Fitted equation: ({A_fit:.3f} ± {A_err:.3f}) * exp(({B_fit:.3f} ± {B_err:.3f}) * x) + ({C_fit:.3f} ± {C_err:.3f})"
+)
 
 # Plot using Streamlit native functions
 fig = go.Figure()
