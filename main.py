@@ -14,8 +14,17 @@ selected_file = st.selectbox("Select a data file", data_files)
 
 # Load data
 df = pd.read_csv(f"data/{selected_file}", sep=";")
-length = float(selected_file.split("_")[-1].replace(".csv", ""))
-length = length/100
+# Estrarre lunghezza dal nome del file (in cm) e convertirla in metri
+default_length_cm = float(selected_file.split("_")[-1].replace(".csv", ""))
+default_length_m = default_length_cm / 100
+
+# Campo di input per modificare la lunghezza
+length = st.number_input(
+    "Insert or confirm pendulum length (in meters)", 
+    value=default_length_m, 
+    min_value=0.0, 
+    format="%.4f"
+)
 
 # Remove first 29 rows
 df = df.iloc[6:]
