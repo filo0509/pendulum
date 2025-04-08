@@ -90,6 +90,8 @@ initial_guess = [1, -0.1]
 lin_fig = go.Figure()
 params, covariance = curve_fit(linear_model, x, y, p0=initial_guess, maxfev=5000)
 A_fit, B_fit = params
+perr = np.sqrt(np.diag(covariance))  # standard deviation (errors)
+A_err, B_err = perr
 x_fit = np.linspace(min(x), max(x), 200)
 y_fit = linear_model(x_fit, A_fit, B_fit)
 
@@ -100,7 +102,7 @@ lin_fig.update_layout(title="Period vs Time", xaxis_title="T^2", yaxis_title="Lu
 
 st.plotly_chart(lin_fig)
 st.write(
-    f"Fitted equation: {A_fit:.6f}*x + {B_fit:.6f}"
+    f"Fitted equation: ({A_fit:.6f} ± {A_err:.6f})*x + ({B_fit:.6f} ± {B_err:.6f})"
 )
 
 # Compute and display g
