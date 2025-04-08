@@ -89,7 +89,7 @@ lin_fig = go.Figure()
 params, covariance = curve_fit(linear_model, x, y, p0=initial_guess, maxfev=5000)
 A_fit, B_fit = params
 x_fit = np.linspace(min(x), max(x), 200)
-y_fit = exp_model(x_fit, A_fit, B_fit)
+y_fit = linear_model(x_fit, A_fit, B_fit)
 
 lin_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='Data'))
 lin_fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=dict(color='red')))
