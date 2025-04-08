@@ -65,6 +65,18 @@ fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=dict(c
 fig.update_layout(title="Period vs Time", xaxis_title="Time", yaxis_title="Period")
 
 st.plotly_chart(fig)
+# Istogramma della distribuzione dei periodi (dati grezzi)
+hist_fig = go.Figure()
+hist_fig.add_trace(go.Histogram(x=y, nbinsx=30, marker_color='royalblue'))
+
+hist_fig.update_layout(
+    title="Distribuzione dei Periodi Misurati",
+    xaxis_title="Periodo (s)",
+    yaxis_title="Frequenza",
+    bargap=0.05
+)
+
+st.plotly_chart(hist_fig)
 
 # Compute and display g
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
