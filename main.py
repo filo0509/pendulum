@@ -99,6 +99,10 @@ lin_fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=di
 lin_fig.update_layout(title="Period vs Time", xaxis_title="Time", yaxis_title="Period")
 
 st.plotly_chart(lin_fig)
+st.write(
+    f"Fitted equation: {A_fit:.6f}*x + {B_fit:.6f}"
+)
+
 # Compute and display g
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
 st.write(f"Estimated g: {g:.4f} m/s²")
