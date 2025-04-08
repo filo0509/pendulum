@@ -45,7 +45,7 @@ y_fit = exp_model(x_fit, A_fit, B_fit, C_fit)
 # Display results in Streamlit
 st.title("Exponential Fit for Period Data")
 st.write(
-    f"Fitted equation: ({A_fit:.3f} ± {A_err:.3f}) * exp(({B_fit:.3f} ± {B_err:.3f}) * x) + ({C_fit:.3f} ± {C_err:.3f})"
+    f"Fitted equation: ({A_fit:.6f} ± {A_err:.6f}) * exp(({B_fit:.6f} ± {B_err:.6f}) * x) + ({C_fit:.6f} ± {C_err:.6f})"
 )
 
 # Plot using Streamlit native functions
