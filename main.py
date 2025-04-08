@@ -78,6 +78,25 @@ hist_fig.update_layout(
 
 st.plotly_chart(hist_fig)
 
+t2l = pd.read_csv("pluto.csv", sep=";")
+x = t2l["t2"]
+y = t2l["l"]
+
+def linear_model(x, A, B):
+    return A*x + B
+
+lin_fig = go.Figure()
+params, covariance = curve_fit(linear_model, x, y, p0=initial_guess, maxfev=5000)
+A_fit, B_fit = params
+x_fit = np.linspace(min(x), max(x), 200)
+y_fit = exp_model(x_fit, A_fit, B_fit)
+
+lin_fig.add_trace(go.Scatter(x=x, y=y, mode='markers', name='Data'))
+lin_fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Fit', line=dict(color='red')))
+
+lin_fig.update_layout(title="Period vs Time", xaxis_title="Time", yaxis_title="Period")
+
+st.plotly_chart(lin_fig)
 # Compute and display g
 g = 4 * math.pi ** 2 * length / (C_fit ** 2)
 st.write(f"Estimated g: {g:.4f} m/s²")

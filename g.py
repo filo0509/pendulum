@@ -12,6 +12,9 @@ data_files = [f for f in os.listdir("data") if f.endswith(".csv")]
 # Dropdown to select file
 # selected_file = st.selectbox("Select a data file", data_files)
 
+periods = []
+lengths = []
+
 for selected_file in data_files:
     # Load data
     df = pd.read_csv(f"data/{selected_file}", sep=";")
@@ -52,9 +55,7 @@ for selected_file in data_files:
     x_fit = np.linspace(min(x), max(x), 200)
     y_fit = exp_model(x_fit, A_fit, B_fit, C_fit)
 
-    for l in range(5, 10):
-        g = 4 * math.pi ** 2 * (length-l/1000) / (C_fit ** 2)
-        print(selected_file, g, length-l/1000)
+    print(C_fit**2, length)
 
 # # Display results in Streamlit
 # st.title("Exponential Fit for Period Data")
